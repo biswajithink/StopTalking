@@ -1,4 +1,4 @@
-var demo = {}, centerX = 1500/2, centerY = 1000/2, window, cloudTwo, cloudOne, cloudthree;
+var demo = {}, centerX = 1500/2, centerY = 1000/2, window, cloudTwo, cloudOne, cloudthree, handBottomPart, handTopPart, studentBodyBottom, boySideface, boyFrontface, girlSideface, girlFrontface, c = 'rgb(255,255,255)', p = new Phaser.Point();
 demo.state0 = function(){};
 demo.state0.prototype = {
     preload: function(){
@@ -23,10 +23,31 @@ demo.state0.prototype = {
         game.load.image('teacherHeadAngry', '../assets/sprites/teacherHeadAngry.png', 90, 110);
         game.load.image('handBottomPart', '../assets/sprites/handBottomPart.png', 101, 139);
         game.load.image('handTopPart', '../assets/sprites/handTopPart.png', 87, 61);
+        game.load.image('studentBodyBottom', '../assets/sprites/studentBodyBottom.png', 383, 331);
+        game.load.image('boyFrontface', '../assets/sprites/boyFrontface.png', 92, 93);
+        game.load.image('boySideface', '../assets/sprites/boySideface.png', 94, 91);
+        game.load.image('girlFrontface', '../assets/sprites/girlFrontface.png', 159, 95);
+        game.load.image('girlSideface', '../assets/sprites/girlSideface.png', 112, 114);
+        game.load.image('paper', '../assets/sprites/paper.png', 72, 72);
+        
+        
+        game.load.spritesheet('balls', '../assets/sprites/balls.png', 17, 17);
+        game.load.image('arrow', '../assets/sprites/asteroids_ship.png');
         
     },
+    shutdown: function(){     
+        this.removeCachedAssets();
+    },
+    removeCachedAssets: function(){     
+            this.game.cache.removeImage("windowSide");     
+            this.game.cache.removeImage("floor");     
+            this.game.cache.removeImage("boardSide");
+        console.log(hi);
+    },
     create: function(){
-                
+        
+        game.physics.startSystem(Phaser.Physics.P2JS);
+        
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -95,8 +116,9 @@ demo.state0.prototype = {
         var globeTable = game.add.sprite(670, 558, 'globeTable');
         globeTable.scale.setTo(0.8, 0.8);
         
-        var handTopPart = game.add.sprite(1211, 473, 'handTopPart');
+        handTopPart = game.add.sprite(1211, 473, 'handTopPart');
         handTopPart.scale.setTo(0.8, 0.8);
+        
         
         var teacherBodyPart = game.add.sprite(1240, 440, 'teacherPart1');
         teacherBodyPart.scale.setTo(0.8, 0.8);
@@ -105,13 +127,56 @@ demo.state0.prototype = {
         teacherHeadHappy.scale.setTo(0.8, 0.8);
         
         /*var teacherHeadAngry = game.add.sprite(1172, 442, 'teacherHeadAngry');
-        teacherHeadAngry.scale.setTo(0.7, 0.7);*/
-        
-        
-        
-        var handBottomPart = game.add.sprite(1144, 410, 'handBottomPart');
+        teacherHeadAngry.scale.setTo(0.7, 0.7);*/  
+                
+        handBottomPart = game.add.sprite(1144, 410, 'handBottomPart');
         handBottomPart.scale.setTo(0.8, 0.8);
+        //handBottomPart.setRectangle(50, 100, 0, 0, 10);
         
+        paper = game.add.sprite(1144, 410, 'paper');
+        paper.scale.setTo(0.4, 0.4);
+        
+        
+        studentBodyBottomOne = game.add.sprite(50, 680, 'studentBodyBottom');
+        studentBodyBottomOne.scale.setTo(0.7, 0.7);
+        
+        studentBodyBottomTwo = game.add.sprite(320, 730, 'studentBodyBottom');
+        studentBodyBottomTwo.scale.setTo(0.7, 0.7);
+        
+        studentBodyBottomThree = game.add.sprite(580, 680, 'studentBodyBottom');
+        studentBodyBottomThree.scale.setTo(0.7, 0.7);
+        
+        studentBodyBottomFour = game.add.sprite(810, 730, 'studentBodyBottom');
+        studentBodyBottomFour.scale.setTo(0.7, 0.7);
+        
+        
+        
+        boyOneFront = game.add.sprite(80, 624, 'boyFrontface');
+        boyOneFront.scale.setTo(0.7, 0.7);
+        
+        //boyOneSide = game.add.sprite(73, 622, 'boySideface');
+        //boyOneSide.scale.setTo(0.7, 0.7);
+        
+        //boyTwoFront = game.add.sprite(612, 623, 'boyFrontface');
+        //boyTwoFront.scale.setTo(0.7, 0.7);
+        
+        boyTwoSide = game.add.sprite(600, 624, 'boySideface');
+        boyTwoSide.scale.setTo(0.7, 0.7);
+        
+        //girlOneSide = game.add.sprite(327, 672, 'girlFrontface');
+        //girlOneSide.scale.setTo(0.7, 0.7);
+        
+        girlOneFront = game.add.sprite(325, 674, 'girlSideface');
+        girlOneFront.scale.setTo(0.7, 0.7);
+        
+        girlTwoFront = game.add.sprite(817, 672, 'girlFrontface');
+        girlTwoFront.scale.setTo(0.7, 0.7);
+        
+        //girlTwoSide = game.add.sprite(817, 674, 'girlSideface');
+        //girlTwoSide.scale.setTo(0.7, 0.7);
+        
+        
+       
         
         
         // Structure End //
@@ -122,9 +187,7 @@ demo.state0.prototype = {
         game.add.tween(cloudTwo).to({x: -200, }, 30000, 'Linear', true);
         game.add.tween(cloudThree).to({x: -200, }, 40000, 'Linear', true);
         game.add.tween(cloudFour).to({x: -200, }, 40000, 'Linear', true);
-        game.add.tween(cloudFive).to({x: -200, }, 40000, 'Linear', true);
-        
-        
+        game.add.tween(cloudFive).to({x: -200, }, 40000, 'Linear', true);        
         
     },
     update: function(){
@@ -149,5 +212,8 @@ demo.state0.prototype = {
             game.add.tween(cloudFive).from({ x:  2500, }, 60000, 'Linear', true);
             
         }
-    }
+        
+        
+    },
+    render: function() {}
 };
